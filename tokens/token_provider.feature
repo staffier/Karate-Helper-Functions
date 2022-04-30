@@ -1,5 +1,9 @@
 Feature: Token Provider
 
+  This file can be launched as a server, e.g.:
+
+      mvn test-compile exec:java -Dexec.mainClass=com.intuit.karate.Main -Dexec.classpathScope=test -Dexec.args="-m src/test/java/token_provider.feature -p 8080"
+      
   Background:
     # Fetch global variables & functions
     * call read('globals.feature')
