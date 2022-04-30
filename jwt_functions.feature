@@ -15,7 +15,8 @@ Reference: https://github.com/auth0/java-jwt
     * def accessToken = JWT.create().withIssuer("Some Issuer").withExpiresAt(new Date(java.lang.System.currentTimeMillis() + 900000)).sign(algorithm)
 
     # Decode the JWT and grab its expiration
-    * def expiration = JWT.decode(accessToken).getExpiresAt().getTime()
+    * def expirationInMillis = JWT.decode(accessToken).getExpiresAt().getTime()
+    * def expiration = new java.math.BigDecimal(expirationInMillis/1000)
 
   Scenario: Server-side scenario to verify the Authorization header on an incoming request is valid
     * def abortWithResponse =
