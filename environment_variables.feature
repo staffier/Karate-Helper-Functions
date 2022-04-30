@@ -21,3 +21,20 @@ Feature: Retrieve operating system environment variables
 #      assertEquals(0, results.getFailCount(), results.getErrorMessages());
 #    }
 #  }
+#
+# ...and in your karate-config.js file, reference 'karate.env: 
+#
+#  function fn() {
+#     var env = karate.env; // get java system property 'karate.env'
+#     if (!env) {
+#       env = 'localhost'; // default environment
+#     }
+#     var config = {
+#       baseUrl: 'https://123.12.0.1:8443',
+#     };
+#     if (env == 'localhost') {
+#       config.baseUrl = 'https://localhost:8443';
+#     }
+#     karate.log('baseUrl:', config.baseUrl);
+#     return config;
+#   }
