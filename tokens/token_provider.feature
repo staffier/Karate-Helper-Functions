@@ -183,7 +183,7 @@ Feature: Token Provider
     * if (authorizationHeaderValid() != null) abortWithResponse(401, 'There is an issue with your JWT: ' + authorizationHeaderValid().toString())
 
     # Verify the request conforms to a schema & fail if not:
-    * def provisionCryptogramSchema =
+    * def createCryptogramSchema =
       """
       {
         "tokenProviderProfileId": "#string? _.length >= 1",
