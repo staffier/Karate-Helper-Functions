@@ -10,13 +10,13 @@ Feature: Create error objects (can be optionally added to responses based on the
     * def error208_userId = { errorCode: '208', source: 'source', context: 'context', message: 'message' }
 
     # Generate an error response body (order matters here, as karate.set() will overwrite 'errors'):
-    * def isValidUserId = karate.match("request.userId == '#uuid'")
+    * def isValidUserId = karate.match("loginRequest.userId == '#uuid'")
     * if (isValidUserId.pass == false) karate.set('errors', [error208_userId])
-    * if (request.userId == null || request.userId == '') karate.set('errors', [error206_userId])
-    * if (request.secret == null || request.secret == '') karate.set('errors', [error206_secret])
-    * if ((request.userId == null || request.userId == '') && (request.secret == null || request.secret == '')) karate.set('errors', [error206_userId, error206_secret])
-    * if (request.userId == '00000000-0000-0000-0000-000000000000' || request.secret == 'invalid') karate.set('errors', [error201])
-    * if (request.userId == '99999999-9999-9999-9999-999999999999' || request.secret == 'unauthorized') karate.set('errors', [error204])
+    * if (loginRequest.userId == null || loginRequest.userId == '') karate.set('errors', [error206_userId])
+    * if (loginRequest.secret == null || loginRequest.secret == '') karate.set('errors', [error206_secret])
+    * if ((loginRequest.userId == null || loginRequest.userId == '') && (loginRequest.secret == null || loginRequest.secret == '')) karate.set('errors', [error206_userId, error206_secret])
+    * if (loginRequest.userId == '00000000-0000-0000-0000-000000000000' || loginRequest.secret == 'invalid') karate.set('errors', [error201])
+    * if (loginRequest.userId == '99999999-9999-9999-9999-999999999999' || loginRequest.secret == 'unauthorized') karate.set('errors', [error204])
 
     * def errorResponse =
       """
@@ -158,9 +158,9 @@ Feature: Create error objects (can be optionally added to responses based on the
 
   @modifyCreateToken
   Scenario:
-    * def firstSix = stripFirstSix(request.cardDetails.accountNumber)
-    * def lastFour = stripLastFour(request.cardDetails.accountNumber)
-    * def expirationDate = request.cardDetails.expirationDate
+    * def firstSix = stripFirstSix(createRequest.cardDetails.accountNumber)
+    * def lastFour = stripLastFour(createRequest.cardDetails.accountNumber)
+    * def expirationDate = createRequest.cardDetails.expirationDate
 
     * def statusCode = "100"
     * def errors = null
