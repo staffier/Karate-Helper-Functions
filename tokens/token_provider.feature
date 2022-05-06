@@ -20,16 +20,16 @@ Feature: Token Provider
   # Response for login requests:
   Scenario: pathMatches('/login') && methodIs('post')
     # Verify the request conforms to a schema & fail if not:
-    * def incomingRequest = request
-    * call read('errors.feature@authErrors') { request: '#(incomingRequest)' }
+    * def loginRequest = request
+    * call read('errors.feature@authErrors') { loginRequest: '#(loginRequest)' }
 
     # Determine if errors need to be included on the response:
-    * if ((request.userId == null || request.userId == '') && (request.secret == null || request.secret == '')) abortWithResponse(422, errorResponse)
-    * if (request.userId == null || request.userId == '') abortWithResponse(422, errorResponse)
-    * if (request.secret == null || request.secret == '') abortWithResponse(422, errorResponse)
-    * if (request.userId == '00000000-0000-0000-0000-000000000000' || request.secret == 'invalid') abortWithResponse(401, errorResponse)
-    * if (request.userId == '99999999-9999-9999-9999-999999999999' || request.secret == 'unauthorized') abortWithResponse(403, errorResponse)
-    * def isValidUserId = karate.match("request.userId == '#uuid'")
+    * if ((loginRequest.userId == null || loginRequest.userId == '') && (request.secret == null || request.secret == '')) abortWithResponse(422, errorResponse)
+    * if (loginRequest.userId == null || loginRequest.userId == '') abortWithResponse(422, errorResponse)
+    * if (loginRequest.secret == null || loginRequest.secret == '') abortWithResponse(422, errorResponse)
+    * if (loginRequest.userId == '00000000-0000-0000-0000-000000000000' || loginRequest.secret == 'invalid') abortWithResponse(401, errorResponse)
+    * if (loginRequest.userId == '99999999-9999-9999-9999-999999999999' || loginRequest.secret == 'unauthorized') abortWithResponse(403, errorResponse)
+    * def isValidUserId = karate.match("loginRequest.userId == '#uuid'")
     * if (isValidUserId.pass == false) abortWithResponse(422, errorResponse)
 
     # Define values for non-error fields:
@@ -160,7 +160,8 @@ Feature: Token Provider
     * if (correlationId == 'ERROR_422_CODES_208_AND_209') abortWithResponse(422, errorResponse)
 
     # Define values for non-error fields:
-    * call read('errors.feature@modifyCreateToken') { correlationId: '#(correlationId)', request: '#(request)' }
+    * def createRequest = request
+    * call read('errors.feature@modifyCreateToken') { correlationId: '#(correlationId)', createRequest: '#(createRequest)' }
 
     # Determine, based on correlationId, if token details need to be removed from the response:
     * def removeFields = karate.match("correlationId contains 'NO_TOKEN'").pass
